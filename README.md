@@ -101,3 +101,28 @@ quotient_remainder_nonnegative1(Domain(Op) a, Domain(Op) b, Op op)
     else       return pair<N, T>(successor(m), inverse(op)(a, b));
 }
 ```
+
+In the original *quotient_remainder_nonnegative* algorithm, Stepanov and McJones deliberately chose to test *if(a - b < b)* rather than *if(a < b + b)* to avoid overflow. If we ignore overflow and assume that *op(a, b)* is faster than *inverse(op)(a, b)*, it leads us to another optimization:
+
+```c++
+template<typename Op>
+    requires(HomogeneousFunction(Op) && Arity(Op) == 2 &&
+        ArchimedeanGroup(Domain(Op)) &&
+        Codomain(Op) == Domain(Op))
+pair<QuotientType(Domain(Op)), Domain(Op)>
+quotient_remainder_nonnegative2(Domain(Op) a, Domain(Op) b, Op op)
+{
+    // Precondition: $a \geq 0 \wedge b > 0$
+    typedef Domain(Op) T;
+    typedef QuotientType(T) N;
+    if (a < b) return pair<N, T>(N(0), a);
+    auto const c = op(b, b);
+    if (a < c) return pair<N, T>(N(1), inverse(op)(a, b));
+    pair<N, T> q = quotient_remainder_nonnegative2(a, c, op);
+    N m = twice(q.m0);
+    a = q.m1;
+    if (a < b) return pair<N, T>(m, a);
+    else       return pair<N, T>(successor(m), inverse(op)(a, b));
+}
+```
+
