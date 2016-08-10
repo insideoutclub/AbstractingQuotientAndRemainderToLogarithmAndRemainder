@@ -40,3 +40,28 @@ quotient_remainder_nonnegative(T a, T b)
     else       return pair<N, T>(successor(m), a - b);
 }
 ```
+
+The use of addition and subtraction in the algorithm presented above intrigued me. For the Egyptian multiplication algorithm, we started out using addition to yield multiplication. When we plugged in multiplication instead, we got powers. What happens when we replace addition and subtraction in the Egyptian division algorithm with multiplication and division?
+
+Here's the same algorithm tweaked by me to allow for different operations to be used in place of the originally hardcoded addition and subtraction:
+
+```c++
+template<typename Op>
+requires(HomogeneousFunction(Op) && Arity(Op) == 2 &&
+    ArchimedeanGroup(Domain(Op)) &&
+    Codomain(Op) == Domain(Op))
+pair<QuotientType(Domain(Op)), Domain(Op)>
+quotient_remainder_nonnegative0(Domain(Op) a, Domain(Op) b, Op op)
+{
+    // Precondition: $a \geq 0 \wedge b > 0$
+    typedef Domain(Op) T;
+    typedef QuotientType(T) N;
+    if (a < b) return pair<N, T>(N(0), a);
+    if (inverse(op)(a, b) < b) return pair<N, T>(N(1), inverse(op)(a, b));
+    pair<N, T> q = quotient_remainder_nonnegative0(a, op(b, b), op);
+    N m = twice(q.m0);
+    a = q.m1;
+    if (a < b) return pair<N, T>(m, a);
+    else       return pair<N, T>(successor(m), inverse(op)(a, b));
+}
+```
