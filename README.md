@@ -65,3 +65,16 @@ quotient_remainder_nonnegative0(Domain(Op) a, Domain(Op) b, Op op)
     else       return pair<N, T>(successor(m), inverse(op)(a, b));
 }
 ```
+In *From Mathematics to Generic Programming*, Stepanov and Rose introduce the *inverse_operation* function, where the *inverse_operation* of addition is unary negation and the *inverse_operation* of multiplication is taking the reciprocal. Thus performing subtraction *(c = a - b)* using their notation looks like
+
+```c++
+    T c = op(a, inverse_operation(op)(b));
+```
+
+Instead, I introduce the *inverse* function, where the *inverse* of addition is subtraction and the *inverse* of multiplication is division. Performing subtraction using my notation looks like
+
+```c++
+    T c = inverse(op)(a, b);
+```
+I believe that the two notations are functionally equivalent. I chose my notation for the sake of simplicity and performance. I found that performing a single division is faster than taking a reciprocal and multiplying.
+
