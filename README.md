@@ -133,3 +133,4 @@ quotient_remainder_nonnegative2(Domain(Op) a, Domain(Op) b, Op op)
     else       return pair<N, T>(successor(m), inverse(op)(a, b));
 }
 ```
+What we have so far is an algorithm that works in *O(log<sub>2</sub>(n))* time and uses *O(log<sub>2</sub>(n))* space. Can we do better in terms of space or time? In *Elements of Programming*, Stepanov and McJones provide the algorithm *quotient_remainder_nonnegative_iterative* that calculates
