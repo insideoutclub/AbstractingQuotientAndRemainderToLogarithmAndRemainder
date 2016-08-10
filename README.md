@@ -78,3 +78,26 @@ Instead, I introduce the *inverse* function, where the *inverse* of addition is 
 ```
 I believe that the two notations are functionally equivalent. I chose my notation for the sake of simplicity and performance. I found that performing a single division is faster than taking a reciprocal and multiplying.
 
+The first optimization that I made to the above algorithm is to remember the result of *inverse(op)(a, b)* and reuse it rather than recalculate it.
+
+```c++
+template<typename Op>
+requires(HomogeneousFunction(Op) && Arity(Op) == 2 &&
+    ArchimedeanGroup(Domain(Op)) &&
+    Codomain(Op) == Domain(Op))
+pair<QuotientType(Domain(Op)), Domain(Op)>
+quotient_remainder_nonnegative1(Domain(Op) a, Domain(Op) b, Op op)
+{
+    // Precondition: $a \geq 0 \wedge b > 0$
+    typedef Domain(Op) T;
+    typedef QuotientType(T) N;
+    if (a < b) return pair<N, T>(N(0), a);
+    T c = inverse(op)(a, b);
+    if (c < b) return pair<N, T>(N(1), c);
+    pair<N, T> q = quotient_remainder_nonnegative1(a, op(b, b), op);
+    N m = twice(q.m0);
+    a = q.m1;
+    if (a < b) return pair<N, T>(m, a);
+    else       return pair<N, T>(successor(m), inverse(op)(a, b));
+}
+```
