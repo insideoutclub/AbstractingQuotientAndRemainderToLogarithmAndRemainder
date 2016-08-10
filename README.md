@@ -21,7 +21,7 @@ If you use *std::plus\<int\>* as the binary operation, the algorithm will perfor
 
 This is one of the fundamental themes of Stepanov's work. Take an algorithm that does something useful in a specific context, figure out the minimal requirements for the types used by that algorithm, and then abstract or expand the algorithm to do something useful in many broader contexts.
 
-The Egyptian multiplication/power algorithm works by breaking down the big problem into smaller steps. At each step, the value of *a* is doubled and the value of *n* is halved. The Egyptians used the same idea in reverse to perform division with remainder:
+The Egyptian multiplication/power algorithm works by breaking down the big problem into smaller steps. At each step, the value of *a* is doubled and the value of *n* is halved. The Egyptians used the same idea in reverse to perform division with remainder. Again, here's a simple, unoptimized version of that algorithm from http://www.elementsofprogramming.com/code/eop.h:
 
 ```c++
 template<typename T>
