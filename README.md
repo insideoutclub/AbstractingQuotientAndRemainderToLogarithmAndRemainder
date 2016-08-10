@@ -92,7 +92,7 @@ quotient_remainder_nonnegative1(Domain(Op) a, Domain(Op) b, Op op)
     typedef Domain(Op) T;
     typedef QuotientType(T) N;
     if (a < b) return pair<N, T>(N(0), a);
-    T c = inverse(op)(a, b);
+    T const c = inverse(op)(a, b);
     if (c < b) return pair<N, T>(N(1), c);
     pair<N, T> q = quotient_remainder_nonnegative1(a, op(b, b), op);
     N m = twice(q.m0);
@@ -116,7 +116,7 @@ quotient_remainder_nonnegative2(Domain(Op) a, Domain(Op) b, Op op)
     typedef Domain(Op) T;
     typedef QuotientType(T) N;
     if (a < b) return pair<N, T>(N(0), a);
-    auto const c = op(b, b);
+    T const c = op(b, b);
     if (a < c) return pair<N, T>(N(1), inverse(op)(a, b));
     pair<N, T> q = quotient_remainder_nonnegative2(a, c, op);
     N m = twice(q.m0);
