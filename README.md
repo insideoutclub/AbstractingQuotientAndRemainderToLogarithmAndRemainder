@@ -17,7 +17,7 @@ Domain(Op) power_0(Domain(Op) a, I n, Op op)
 }
 ```
 
-If you use std::plus\<int\> as the binary operation, the algorithm will perform multiplication (n x a) in O(log<sub>2</sub>(n)) steps. If you take the exact same code, but use std::multiplies\<int\> as the binary operation, the algorithm will perform the operation of raising to a power (a<sup>n</sup>), again in O(log<sub>2</sub>(n)) steps. You're not stuck with integers, either. The algorithm will work with any type that has an associative binary operation (a.k.a. a noncommutative additive subgroup). Examples of noncommutative additive subgroups include real numbers and polynomials.
+If you use *std::plus\<int\>* as the binary operation, the algorithm will perform multiplication (*n x a*) in *O(log<sub>2</sub>(n))* steps. If you take the exact same code, but use *std::multiplies\<int\>* as the binary operation, the algorithm will perform the operation of raising to a power (*a<sup>n</sup>*), again in *O(log<sub>2</sub>(n))* steps. You're not stuck with integers, either. The algorithm will work with any type that has an associative binary operation (a.k.a. a noncommutative additive subgroup). Examples of noncommutative additive subgroups include real numbers and polynomials.
 
 This is one of the fundamental themes of Stepanov's work. Take an algorithm that does something useful in a specific context, figure out the minimal requirements for the types used by that algorithm, and then abstract or expand the algorithm to do something useful in many broader contexts.
 
